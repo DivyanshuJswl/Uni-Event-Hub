@@ -1,117 +1,226 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-
-// @mui material components
-import Link from "@mui/material/Link";
-import Icon from "@mui/material/Icon";
-
-// Material Dashboard 2 React components
+import React from "react";
+import { Grid, Link, IconButton } from "@mui/material";
+import { useMaterialUIController } from "context";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  LinkedIn,
+  Email,
+  Phone,
+  LocationOn,
+  Favorite,
+} from "@mui/icons-material";
 
-// Material Dashboard 2 React base styles
-import typography from "assets/theme/base/typography";
+const Footer = () => {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
 
-function Footer({ company, links }) {
-  const { href, name } = company;
-  const { size } = typography;
+  const socialLinks = [
+    { icon: <Facebook />, url: "https://facebook.com" },
+    { icon: <Twitter />, url: "https://twitter.com" },
+    { icon: <Instagram />, url: "https://instagram.com" },
+    { icon: <LinkedIn />, url: "https://linkedin.com" },
+  ];
 
-  const renderLinks = () =>
-    links.map((link) => (
-      <MDBox key={link.name} component="li" px={2} lineHeight={1}>
-        <Link href={link.href} target="_blank">
-          <MDTypography variant="button" fontWeight="regular" color="text">
-            {link.name}
-          </MDTypography>
-        </Link>
-      </MDBox>
-    ));
+  const quickLinks = [
+    { label: "Browse Events", url: "/events" },
+    { label: "Create Event", url: "/create" },
+    { label: "Certificates", url: "/certificates" },
+  ];
 
   return (
     <MDBox
-      width="100%"
-      display="flex"
-      flexDirection={{ xs: "column", lg: "row" }}
-      justifyContent="space-between"
-      alignItems="center"
-      px={1.5}
+      component="footer"
+      sx={{
+        py: 2,
+        px: { xs: 2, md: 6 },
+        borderTop: `1px solid ${darkMode ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.12)"}`,
+        transition: "all 0.3s ease",
+      }}
     >
-      <MDBox
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexWrap="wrap"
-        color="text"
-        fontSize={size.sm}
-        px={1.5}
-      >
-        &copy; {new Date().getFullYear()}, made with
-        <MDBox fontSize={size.md} color="text" mb={-0.5} mx={0.25}>
-          <Icon color="inherit" fontSize="inherit">
-            favorite
-          </Icon>
-        </MDBox>
-        by
-        <Link href={href} target="_blank">
-          <MDTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
-          </MDTypography>
-        </Link>
-        for a better web.
-      </MDBox>
-      <MDBox
-        component="ul"
-        sx={({ breakpoints }) => ({
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          listStyle: "none",
-          mt: 3,
-          mb: 0,
-          p: 0,
+      <Grid container spacing={2} maxWidth="xl" margin="0 0">
+        <Grid item xs={12} md={4}>
+          <MDBox mb={2}>
+            <MDTypography
+              variant="h4"
+              fontWeight="bold"
+              color={darkMode ? "white" : "dark"}
+              sx={{
+                mb: 1,
+                background: darkMode
+                  ? "linear-gradient(45deg, #4facfe 0%, #00f2fe 100%)"
+                  : "linear-gradient(45deg, #3f51b5 0%, #2196f3 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                display: "inline-block",
+              }}
+            >
+              Uni-Event Hub
+            </MDTypography>
+            <MDTypography
+              variant="body2"
+              color={darkMode ? "white" : "text.primary"}
+              fontWeight="regular"
+              sx={{ lineHeight: 1.8 }}
+            >
+              Made By -
+            </MDTypography>
+            <MDTypography
+              variant="body2"
+              color={darkMode ? "white" : "text.primary"}
+              sx={{ lineHeight: 1.8 }}
+            >
+              Divyanshu Jaiswal
+              <br /> Suhail Sama
+              <br /> Rupak Boral
+              <br /> Satyam Singh
+            </MDTypography>
+          </MDBox>
 
-          [breakpoints.up("lg")]: {
-            mt: 0,
-          },
-        })}
-      >
-        {renderLinks()}
-      </MDBox>
+          <MDBox display="flex" gap={2} mt={3}>
+            {socialLinks.map((social, index) => (
+              <IconButton
+                key={index}
+                href={social.url}
+                target="_blank"
+                rel="noopener"
+                sx={{
+                  color: darkMode ? "#fff" : "#3f51b5",
+                  backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(63, 81, 181, 0.1)",
+                  "&:hover": {
+                    transform: "translateY(-3px)",
+                    backgroundColor: darkMode ? "rgba(255,255,255,0.2)" : "rgba(63, 81, 181, 0.2)",
+                  },
+                  transition: "all 0.3s ease",
+                }}
+              >
+                {social.icon}
+              </IconButton>
+            ))}
+          </MDBox>
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <MDTypography
+            variant="h6"
+            fontWeight="bold"
+            color={darkMode ? "white" : "dark"}
+            sx={{ mb: 2 }}
+          >
+            Quick Links
+          </MDTypography>
+          <MDBox component="ul" sx={{ listStyle: "none", p: 0 }}>
+            {quickLinks.map((link, index) => (
+              <MDBox
+                key={index}
+                component="li"
+                sx={{
+                  py: 1,
+                  "&:hover": {
+                    transform: "translateX(5px)",
+                    transition: "transform 0.3s ease",
+                  },
+                }}
+              >
+                <Link
+                  href={link.url}
+                  underline="none"
+                  sx={{
+                    color: darkMode ? "white" : "text.primary",
+                    "&:hover": {
+                      color: darkMode ? "#4facfe" : "#3f51b5",
+                      fontWeight: 500,
+                    },
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <span style={{ fontSize: "0.8rem" }}>›</span> {link.label}
+                </Link>
+              </MDBox>
+            ))}
+          </MDBox>
+        </Grid>
+
+        <Grid item xs={12} md={5}>
+          <MDTypography
+            variant="h6"
+            fontWeight="bold"
+            color={darkMode ? "white" : "dark"}
+            sx={{ mb: 2 }}
+          >
+            Contact Info
+          </MDTypography>
+
+          <MDBox sx={{ mb: 2 }}>
+            <MDBox display="flex" alignItems="center" gap={1} mb={1}>
+              <LocationOn
+                sx={{
+                  color: darkMode ? "#4facfe" : "#3f51b5",
+                  fontSize: "1.2rem",
+                }}
+              />
+              <MDTypography variant="body2" color={darkMode ? "white" : "text.primary"}>
+                Chandigarh University, Mohali, Punjab - 140413
+              </MDTypography>
+            </MDBox>
+
+            <MDBox display="flex" alignItems="center" gap={1} mb={1}>
+              <Email
+                sx={{
+                  color: darkMode ? "#4facfe" : "#3f51b5",
+                  fontSize: "1.2rem",
+                }}
+              />
+              <MDTypography variant="body2" color={darkMode ? "white" : "text.primary"}>
+                support@uniEventHub.com
+              </MDTypography>
+            </MDBox>
+
+            {/* <MDBox display="flex" alignItems="center" gap={1}>
+              <Phone
+                sx={{
+                  color: darkMode ? "#4facfe" : "#3f51b5",
+                  fontSize: "1.2rem",
+                }}
+              />
+              <MDTypography variant="body2" color={darkMode ? "white" : "text.primary"}>
+                +1 (555) 123-4567
+              </MDTypography>
+            </MDBox> */}
+          </MDBox>
+
+          <MDBox
+            sx={{
+              p: 2,
+              borderRadius: 2,
+              backgroundColor: darkMode ? "rgba(79, 172, 254, 0.1)" : "rgba(63, 81, 181, 0.1)",
+              borderLeft: `4px solid ${darkMode ? "#4facfe" : "#3f51b5"}`,
+            }}
+          >
+            <MDTypography
+              variant="body2"
+              color={darkMode ? "white" : "text.primary"}
+              sx={{ fontStyle: "italic" }}
+            >
+              The best event management platform we ve used. Highly recommended!
+            </MDTypography>
+            <MDTypography
+              variant="caption"
+              color={darkMode ? "white" : "text.primary"}
+              sx={{ display: "block", mt: 1 }}
+            >
+              — Happy Customer
+            </MDTypography>
+          </MDBox>
+        </Grid>
+      </Grid>
     </MDBox>
   );
-}
-
-// Setting default values for the props of Footer
-Footer.defaultProps = {
-  company: { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-  links: [
-    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
-    { href: "https://www.creative-tim.com/blog", name: "Blog" },
-    { href: "https://www.creative-tim.com/license", name: "License" },
-  ],
-};
-
-// Typechecking props for the Footer
-Footer.propTypes = {
-  company: PropTypes.objectOf(PropTypes.string),
-  links: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Footer;
