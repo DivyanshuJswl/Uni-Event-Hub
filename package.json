@@ -6,8 +6,8 @@
     "@emotion/cache": "11.10.8",
     "@emotion/react": "11.10.8",
     "@emotion/styled": "11.10.8",
-    "@mui/icons-material": "5.11.16",
-    "@mui/material": "5.12.3",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.14",
     "@mui/x-date-pickers": "^7.28.2",
     "chart.js": "4.3.0",
     "chroma-js": "2.4.2",
@@ -64,5 +64,9 @@
   },
   "overrides": {
     "svgo": "3.0.2"
-  }
+  },
+  "description": "![version](https://img.shields.io/badge/version-2.2.0-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/material-dashboard-react.svg)](https://github.com/creativetimofficial/material-dashboard-react/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/material-dashboard-react.svg)](https://github.com/creativetimofficial/material-dashboard-react/issues?q=is%3Aissue+is%3Aclosed)",
+  "main": "webpack.config.js",
+  "author": "",
+  "license": "ISC"
 }
