@@ -23,15 +23,16 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import MyEvents from "layouts/myevents";
+import Publish from "layouts/certificatepublisher";
+import ExplorePage from "layouts/explorepage";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import MyEvents from "layouts/myevents";
 
 const routes = [
   {
@@ -53,15 +54,15 @@ const routes = [
   {
     type: "collapse",
     name: "Explore",
-    key: "billing",
+    key: "explore",
     icon: <Icon fontSize="small">search</Icon>,
     route: "/explore",
-    component: <Billing />,
+    component: <ExplorePage />,
   },
   {
     type: "collapse",
     name: "Participated events",
-    key: "my-event",
+    key: "my-events",
     icon: <Icon fontSize="small">event</Icon>,
     route: "/my-events",
     component: <MyEvents />,
@@ -73,6 +74,14 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
     component: <Notifications />,
+  },
+  {
+    type: "collapse",
+    name: "Publish Certificate",
+    key: "publish-certificate",
+    icon: <Icon fontSize="small">publish</Icon>,
+    route: "/publish-certificate",
+    component: <Publish />,
   },
   {
     type: "collapse",

@@ -25,7 +25,6 @@ function Tables() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      {/* <CreateEvent /> */}
       <Box sx={{ p: 3 }}>
         <Typography variant="h4" gutterBottom>
           Event Page
