@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState } from "react";
+import { BASE_URL } from "utils/constants";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -45,6 +46,22 @@ function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+
+  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      await axios.post(
+        BASE_URL + "/api/auth/login",
+        { email, password },
+        { withCredentials: true }
+      );
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   return (
     <BasicLayout image={bgImage}>
@@ -84,10 +101,20 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                label="Email"
+                fullWidth
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                label="Password"
+                fullWidth
+              />
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -102,10 +129,11 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton onClick={handleSubmit} variant="gradient" color="info" fullWidth>
                 sign in
               </MDButton>
             </MDBox>
+            <p>{error}</p>
             <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
