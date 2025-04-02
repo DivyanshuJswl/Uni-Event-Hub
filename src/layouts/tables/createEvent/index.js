@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
@@ -22,14 +22,32 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useMaterialUIController } from "context";
 import MDButton from "components/MDButton";
+import { BASE_URL } from "utils/constants";
+import { descriptors } from "chart.js/dist/core/core.defaults";
 
 const CreateEvent = () => {
   const { handleSubmit, control, register } = useForm();
   const [controller] = useMaterialUIController();
   const { darkMode, sidenavColor } = controller;
 
-  const onSubmit = (data) => {
-    console.log("Event Data:", data);
+  const [title, setTitle] = useState("");
+  const [Description, setDescription] = useState("");
+  const [maxParticipants, setMaxParticipants] = useState("");
+  const [date, setDate] = useState();
+  const [location, setLocation] = useState("");
+  const [category, setCategory] = useState("");
+  const [error, setError] = useState("");
+
+  const handleCreateEvent = async () => {
+    try {
+      await axios.post(
+        BASE_URL + "/api/events/create",
+        { title, Description, maxParticipants, date, location, category },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      setError(error);
+    }
   };
 
   return (
@@ -61,8 +79,9 @@ const CreateEvent = () => {
               >
                 Create New Event
               </Typography>
+              <p>{error}</p>
 
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleCreateEvent}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <Controller
@@ -72,7 +91,7 @@ const CreateEvent = () => {
                       render={({ field: { ref, onChange, value, ...fieldProps } }) => (
                         <TextField
                           inputRef={ref}
-                          onChange={onChange}
+                          onChange={(e) => setTitle(e.target.value)}
                           value={value}
                           fullWidth
                           label="Event Title"
@@ -99,6 +118,7 @@ const CreateEvent = () => {
                           {...field}
                           fullWidth
                           label="Description"
+                          onChange={(e) => setDescription(e.target.value)}
                           multiline
                           rows={4}
                           variant="outlined"
@@ -121,7 +141,7 @@ const CreateEvent = () => {
                         render={({ field: { ref, onChange, value, ...fieldProps } }) => (
                           <DatePicker
                             inputRef={ref}
-                            onChange={onChange}
+                            onChange={(e) => setDate(e.target.value)}
                             value={value || null}
                             label="Event Date"
                             sx={{
@@ -175,7 +195,7 @@ const CreateEvent = () => {
                         render={({ field: { ref, onChange, value, ...fieldProps } }) => (
                           <Select
                             inputRef={ref}
-                            onChange={onChange}
+                            onChange={(e) => setCategory(e.target.value)}
                             value={value}
                             labelId="category-label"
                             label="Category"
@@ -204,6 +224,7 @@ const CreateEvent = () => {
                         <TextField
                           {...field}
                           fullWidth
+                          onChange={(e) => setMaxParticipants(e.target.value)}
                           label="Capacity"
                           type="number"
                           variant="outlined"
@@ -250,6 +271,7 @@ const CreateEvent = () => {
                           {...field}
                           fullWidth
                           label="Location (Online or Venue)"
+                          onChange={(e) => setLocation(e.target.value)}
                           variant="outlined"
                           required
                           sx={{

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Container,
@@ -17,6 +17,8 @@ import EventCard from "examples/Cards/ProjectCards/indexProject";
 import { useMaterialUIController } from "context";
 import MDTypography from "components/MDTypography";
 import CategoryFilter from "./components/Category";
+import axios from "axios";
+import { BASE_URL } from "utils/constants";
 
 // Mock data for events (replace with your actual data source)
 const mockEvents = [
@@ -75,13 +77,34 @@ const mockEvents = [
 const Explore = () => {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
-  const [page, setPage] = React.useState(1);
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [categoryFilter, setCategoryFilter] = React.useState("all");
-  const eventsPerPage = 9; // Showing 6 cards per page (2 rows of 3)
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const eventsPerPage = 9;
 
-  // // Calculate current events to display
-  // const currentEvents = mockEvents.slice((page - 1) * eventsPerPage, page * eventsPerPage);
+  const [events, setEvents] = useState();
+
+  const fetchEvents = async () => {
+    try {
+      const res = await axios.get(BASE_URL + "/api/events", { withCredentials: true });
+      setEvents(res?.data); // need modification according to backend
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const EventDetails = async (_id) => {
+    try {
+      const res = await axios.get(BASE_URL + `/api/events/${id}`, { withCredentials: true });
+      setEvents(res?.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   // Filter events based on search term and category
   const filteredEvents = mockEvents.filter((event) => {
@@ -170,11 +193,17 @@ const Explore = () => {
 
         {/* Events Grid */}
         <Grid container spacing={4}>
-          {currentEvents.map((event, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <EventCard image={event.image} title={event.title} description={event.description} />
-            </Grid>
-          ))}
+          {events &&
+            events.map((event, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <EventCard
+                  onClick={(event) => EventDetails(event._id)}
+                  image={event.image}
+                  title={event.title}
+                  description={event.description}
+                />
+              </Grid>
+            ))}
         </Grid>
 
         {/* Pagination */}
