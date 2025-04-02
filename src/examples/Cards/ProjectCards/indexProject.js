@@ -29,7 +29,7 @@ function EventCard({ image, title, description }) {
   const handleClose = () => setOpen(false);
 
   return (
-    <>
+    <div>
       {/* Clickable Card */}
       <Card
         onClick={handleOpen}
@@ -263,7 +263,7 @@ function EventCard({ image, title, description }) {
           </Box>
         </Fade>
       </Modal>
-    </>
+    </div>
   );
 }
 
